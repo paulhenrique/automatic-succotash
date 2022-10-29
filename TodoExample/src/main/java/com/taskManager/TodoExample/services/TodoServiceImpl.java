@@ -61,6 +61,17 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
+    public void toggleTodoCompleted(Long id) {
+        Todo todoFromDB = todoRepository.findById(id).get();
+        if(todoFromDB.getTodoStatus() == TodoStatus.COMPLETED){
+            todoFromDB.setTodoStatus(TodoStatus.NOT_COMPLETED);
+        }else{
+            todoFromDB.setTodoStatus(TodoStatus.COMPLETED);
+        }
+        todoRepository.save(todoFromDB);
+    }
+
+    @Override
     public void deleteTodo(Long id) {
         todoRepository.deleteById(id);
     }

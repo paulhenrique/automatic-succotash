@@ -19,5 +19,7 @@ public interface TodoService {
 
     void makeTodoCompleted(Long id);
 
+    void toggleTodoCompleted(Long id);
+
     void deleteTodo(Long id);
 }

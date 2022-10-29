@@ -64,8 +64,12 @@ public class TodoController {
         return new ResponseEntity<>(todoService.getTodoById(todoId), HttpStatus.OK);
     }
 
-
-
+    @PutMapping({"/{todoId}/toggle"})
+    public ResponseEntity<Todo> toggleTodoCompleted(@PathVariable Long todoId){
+        todoService.toggleTodoCompleted(todoId);
+        return new ResponseEntity<>(todoService.getTodoById(todoId), HttpStatus.OK);
+    }
+    
     @DeleteMapping({"/{todoId}"})
     public ResponseEntity<Todo> deleteTodo(@PathVariable Long todoId){
         todoService.deleteTodo(todoId);
