@@ -20,7 +20,7 @@ public class TodoServiceImpl implements TodoService{
     @Override
     public List<Todo> getTodos() {
         List<Todo> todos = new ArrayList<>();
-        todoRepository.findAll().forEach(todos::add);
+        todoRepository.findAllByOrderByIdDesc().forEach(todos::add);
         return todos;
     }
 

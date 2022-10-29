@@ -69,7 +69,7 @@ public class TodoController {
         todoService.toggleTodoCompleted(todoId);
         return new ResponseEntity<>(todoService.getTodoById(todoId), HttpStatus.OK);
     }
-    
+
     @DeleteMapping({"/{todoId}"})
     public ResponseEntity<Todo> deleteTodo(@PathVariable Long todoId){
         todoService.deleteTodo(todoId);
