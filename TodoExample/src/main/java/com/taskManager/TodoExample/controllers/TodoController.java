@@ -25,6 +25,18 @@ public class TodoController {
         return new ResponseEntity<>(todos, HttpStatus.OK);
     }
 
+    @GetMapping({"/incomplete"})
+    public ResponseEntity<List<Todo>> getNotCompleteTodos() {
+        List<Todo> todos = todoService.getNotCompleteTodos();
+        return new ResponseEntity<>(todos, HttpStatus.OK);
+    }
+
+    @GetMapping({"/complete"})
+    public ResponseEntity<List<Todo>> getCompletedTodos() {
+        List<Todo> todos = todoService.getCompletedTodos();
+        return new ResponseEntity<>(todos, HttpStatus.OK);
+    }
+
     @GetMapping({"/{todoId}"})
     public ResponseEntity<Todo> getTodo(@PathVariable Long todoId){
         return new ResponseEntity<>(todoService.getTodoById(todoId), HttpStatus.OK);
@@ -42,6 +54,12 @@ public class TodoController {
     @PutMapping({"/{todoId}"})
     public ResponseEntity<Todo> updateTodo(@PathVariable Long todoId, @RequestBody Todo todo){
         todoService.updateTodo(todoId, todo);
+        return new ResponseEntity<>(todoService.getTodoById(todoId), HttpStatus.OK);
+    }
+
+    @PutMapping({"/{todoId}/complete"})
+    public ResponseEntity<Todo> updateTodoToComplete(@PathVariable Long todoId){
+        todoService.makeTodoCompleted(todoId);
         return new ResponseEntity<>(todoService.getTodoById(todoId), HttpStatus.OK);
     }
 

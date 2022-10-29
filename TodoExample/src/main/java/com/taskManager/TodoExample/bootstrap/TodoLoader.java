@@ -33,7 +33,23 @@ public class TodoLoader implements CommandLineRunner {
                     Todo.builder()
                             .title("Go to school")
                             .description("Alo alo")
+                            .todoStatus(TodoStatus.COMPLETED)
+                            .build()
+            );
+
+            todoRepository.save(
+                    Todo.builder()
+                            .title("Go to school")
+                            .description("Alo alo")
                             .todoStatus(TodoStatus.NOT_COMPLETED)
+                            .build()
+            );
+
+            todoRepository.save(
+                    Todo.builder()
+                            .title("Go to school")
+                            .description("Alo alo")
+                            .todoStatus(TodoStatus.COMPLETED)
                             .build()
             );
 

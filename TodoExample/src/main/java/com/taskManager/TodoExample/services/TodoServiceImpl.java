@@ -1,6 +1,7 @@
 package com.taskManager.TodoExample.services;
 
 import com.taskManager.TodoExample.model.Todo;
+import com.taskManager.TodoExample.model.TodoStatus;
 import com.taskManager.TodoExample.repositories.TodoRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,16 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
+    public List<Todo> getNotCompleteTodos() {
+        return todoRepository.findByTodoStatus(TodoStatus.NOT_COMPLETED);
+    }
+
+    @Override
+    public List<Todo> getCompletedTodos(){
+        return todoRepository.findByTodoStatus(TodoStatus.COMPLETED);
+    }
+
+    @Override
     public Todo getTodoById(Long id) {
         return todoRepository.findById(id).get();
     }
@@ -39,6 +50,13 @@ public class TodoServiceImpl implements TodoService{
         System.out.println(todoFromDB.toString());
         todoFromDB.setTodoStatus(todo.getTodoStatus());
         todoFromDB.setTitle(todo.getTitle());
+        todoRepository.save(todoFromDB);
+    }
+
+    @Override
+    public void makeTodoCompleted(Long id) {
+        Todo todoFromDB = todoRepository.findById(id).get();
+        todoFromDB.setTodoStatus(TodoStatus.COMPLETED);
         todoRepository.save(todoFromDB);
     }
 
