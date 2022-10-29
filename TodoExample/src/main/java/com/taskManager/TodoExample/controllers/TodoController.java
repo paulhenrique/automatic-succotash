@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/todo")
 public class TodoController {
     TodoService todoService;
@@ -62,6 +63,8 @@ public class TodoController {
         todoService.makeTodoCompleted(todoId);
         return new ResponseEntity<>(todoService.getTodoById(todoId), HttpStatus.OK);
     }
+
+
 
     @DeleteMapping({"/{todoId}"})
     public ResponseEntity<Todo> deleteTodo(@PathVariable Long todoId){
