@@ -1,10 +1,31 @@
+<script setup>
+import { useQueryClient, useQuery, useMutation } from "@tanstack/vue-query";
+import axios from "axios";
+const queryClient = useQueryClient();
+const apiAddress = "http://localhost:8080/api/v1/todo/";
+const { data, isLoading } = useQuery(["todos"], () => axios.get(apiAddress));
+
+const handleToggleTodo = useMutation(
+  (id) => axios.put(apiAddress + id + "/toggle"),
+  {
+    onSuccess: () => {
+      queryClient.invalidateQueries("todos");
+    },
+  }
+);
+
+const onHandleToggleTodoButtonClick = (id) => {
+  handleToggleTodo.mutate(id);
+};
+</script>
 <template>
   <main class="mt-8">
+    <span v-if="isLoading">Carregando</span>
     <h4>All todos:</h4>
     <div id="containerTodos" class="mt-4 flex gap-4 flex-col">
       <div
         class="bg-slate-100 rounded p-4 justify-between flex items-center"
-        v-for="todo in todos"
+        v-for="todo in data?.data"
         :key="todo.id"
       >
         <h5
@@ -15,6 +36,7 @@
         </h5>
         <button
           class="text-sm p-2 text-white rounded transition-colors"
+          @click="onHandleToggleTodoButtonClick(todo.id)"
           :class="
             todo.todoStatus === 'COMPLETED'
               ? 'bg-red-500 hover:bg-red-600'
@@ -31,24 +53,3 @@
     </div>
   </main>
 </template>
-<script lang="ts">
-import axios from "axios";
-
-export default {
-  name: "HomeView",
-  data: () => ({
-    message: "Hello from HomeView",
-    todos: [],
-  }),
-  mounted() {
-    console.log(this.message);
-    this.getTodos();
-  },
-  methods: {
-    async getTodos() {
-      const { data } = await axios.get("http://localhost:8080/api/v1/todo");
-      this.todos = data;
-    },
-  },
-};
-</script>
